@@ -1,20 +1,36 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useState } from "react";
+import AppNav from "./Navs/AppNav";
 
 export default function App() {
+  const [toDoList, setToDoList] = useState([
+    { key: "1", text: "Learn React Native", completed: false },
+    { key: "2", text: "Learn React", completed: true },
+    { key: "3", text: "Learn React Native", completed: false },
+    { key: "4", text: "Learn React", completed: true },
+    { key: "5", text: "Learn React Native", completed: true },
+    { key: "6", text: "Learn React", completed: false },
+  ]);
+
+  const removeToDo = (key) => {
+    setToDoList((prevToDoList) => {
+      return prevToDoList.filter((item) => item.key !== key);
+    });
+  };
+
+  const addToDo = (text) => {
+    setToDoList((prevToDoList) => {
+      return [
+        { key: Math.random().toString(), text: text, completed: false },
+        ...prevToDoList,
+      ];
+    });
+  };
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <AppNav
+      listItems={toDoList}
+      removeListItem={removeToDo}
+      addListItem={addToDo}
+    />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
